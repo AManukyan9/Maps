@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Device;
+
 
 namespace maps
 {
@@ -19,10 +21,12 @@ namespace maps
             cafe.AddVisitors();
             cafe.AddRating(5);
             cafe.AddVisitors();
-            Console.WriteLine(cafe.Rating);
-            Console.WriteLine(cafe.Popularity);
+            Console.WriteLine("Rating of this cafe: " + cafe.Rating);
+            Console.WriteLine("Popularity rating: " + cafe.Popularity);
             Console.WriteLine(cafe.ToString());
-            Console.WriteLine("This cafe works: " + cafe.WorkingHours());
+            Console.WriteLine("Working Hours: " + cafe.WorkingHours());
+
+            
         }
     }
 }

@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Device;
+
 
 namespace maps
 {
@@ -83,7 +85,7 @@ namespace maps
             this.rating = ((this.stars[0] * 1) + (this.stars[1] * 2) + (this.stars[2] * 3) + (this.stars[3] * 4) + (this.stars[4] * 5)) /
                 (this.stars[0] + this.stars[1] + this.stars[2] + this.stars[3] + this.stars[4]);
         }
-
+                
         public string Address { get { return this.address; } }
         public string Number { get { return this.number; } }
         public string Website { get { return this.website; } }
