@@ -16,7 +16,7 @@ namespace maps
         private DateTime opening;
         private DateTime closing;
         private static int count;
-        public Hospital(string name, Address address, string website, string number, DateTime opening, DateTime closing)
+        public Hospital(string name, Address address, string website, string number)
             : base(name, address, website, number)
         {
             this.name = name;
@@ -24,6 +24,7 @@ namespace maps
             this.website = website;
             this.number = number;      
             count++;
+            Maps.AddHospital(this);
         }
 
         public override string ToString()

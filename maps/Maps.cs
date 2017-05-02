@@ -10,12 +10,28 @@ namespace maps
 {
     interface IMaps
     {
-        
+
     }
 
     class Maps
     {
-        private List<Building> buildings;
-        private List<Cafe> cafes;
+        private static List<Building> buildings;
+        private static List<Cafe> cafes;
+        private static List<Hospital> hospitals;
+
+        public static void AddCafe(Cafe cafe)
+        {
+            cafes.Add(cafe);
+        }
+        public static void AddBuilding(Building building)
+        {
+            buildings.Add(building);
+        }
+        public static void AddHospital(Hospital hospital)
+        {
+            hospitals.Add(hospital);
+        }
     }
+
+
 }

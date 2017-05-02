@@ -26,8 +26,7 @@ namespace maps
             Console.WriteLine("Rating of this cafe: " + cafe.Rating);
             Console.WriteLine("Popularity rating: " + cafe.Popularity);
             Console.WriteLine(cafe.ToString());
-            Console.WriteLine("Working Hours: " + cafe.WorkingHours());
-            
+            Console.WriteLine("Working Hours: " + cafe.WorkingHours());        
             
         }
     }
