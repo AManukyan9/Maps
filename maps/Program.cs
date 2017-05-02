@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Drawing;
 
 
 namespace maps
@@ -24,7 +25,7 @@ namespace maps
             Console.WriteLine("Popularity rating: " + cafe.Popularity);
             Console.WriteLine(cafe.ToString());
             Console.WriteLine("Working Hours: " + cafe.WorkingHours());
-
+            
             
         }
     }

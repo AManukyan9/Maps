@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Drawing;
 
 namespace maps
 {
 	class Building : IComparable<Building>
 	{
 		private int ratingCount;
-		private string address;
+		private Address address;
 		private string website;
 		private string number;
 		private string name;
@@ -19,7 +20,7 @@ namespace maps
 		private decimal popularityRating;
 		private DateTime opening;
 		private DateTime closing;
-		public Building(string address, string website, string number, DateTime opening, DateTime closing)
+		public Building(Address address, string website, string number, DateTime opening, DateTime closing)
 		{
 			this.address = address;
 			this.website = website;
@@ -28,13 +29,14 @@ namespace maps
 			this.closing = closing;
 		}
 		
-		public Building(string name, string address, string website, string number)
+		public Building(string name, Address address, string website, string number, DateTime opening, DateTime closing)
 		{
 			this.name = name;
 			this.address = address;
 			this.website = website;
 			this.number = number;
-			
+			this.opening = opening;
+			this.closing = closing;
 		}
 
 		public void AddRating(int star)
@@ -100,7 +102,7 @@ namespace maps
 				(this.stars[0] + this.stars[1] + this.stars[2] + this.stars[3] + this.stars[4]);
 		}
 
-		public string Address { get { return this.address; } }
+		public Address Address { get { return this.address; } }
 		public int RatingCount { get { return this.ratingCount; } }
 		public string Number { get { return this.number; } }
 		public string Website { get { return this.website; } }

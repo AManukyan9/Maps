@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Drawing;
 
 
 namespace maps
@@ -10,13 +11,13 @@ namespace maps
 	class Cafe : Building
 	{
 		private string name;
-		private string address;
+		private Address address;
 		private string website;
 		private string number;
 		private DateTime opening;
 		private DateTime closing;
 		private static int count;
-		public Cafe(string address, string website, string number, DateTime opening, DateTime closing)
+		public Cafe(Address address, string website, string number, DateTime opening, DateTime closing)
 			: base(address, website, number, opening, closing)
 		{
 			this.address = address;
