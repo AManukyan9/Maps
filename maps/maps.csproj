@@ -47,6 +47,7 @@
   <ItemGroup>
     <Compile Include="Building.cs" />
     <Compile Include="Cafe.cs" />
+    <Compile Include="Hospital.cs" />
     <Compile Include="Maps.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

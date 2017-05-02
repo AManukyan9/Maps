@@ -8,18 +8,18 @@ namespace maps
 {
     class Hospital : Building
     {
+        private string name;
         private string address;
         private string website;
         private string number;
-        private DateTime opening;
-        private DateTime closing;
         private static int count;
-        public Hospital(string address, string website, string number)
-            : base(address, website, number)
+        public Hospital(string name, string address, string website, string number)
+            : base(name, address, website, number)
         {
+            this.name = name;
             this.address = address;
             this.website = website;
-            this.number = number;           
+            this.number = number;
             count++;
         }
 
