@@ -29,14 +29,12 @@ namespace maps
 			this.closing = closing;
 		}
 		
-		public Building(string name, Address address, string website, string number, DateTime opening, DateTime closing)
+		public Building(string name, Address address, string website, string number)
 		{
 			this.name = name;
 			this.address = address;
 			this.website = website;
 			this.number = number;
-			this.opening = opening;
-			this.closing = closing;
 		}
 
 		public void AddRating(int star)

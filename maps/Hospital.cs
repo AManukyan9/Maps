@@ -3,26 +3,26 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Drawing;
+using System.Device;
 
 namespace maps
 {
     class Hospital : Building
     {
+        private string name;
         private Address address;
         private string website;
         private string number;
         private DateTime opening;
         private DateTime closing;
         private static int count;
-        public Hospital(Address address, string website, string number, DateTime opening, DateTime closing)
-            : base(address, website, number, opening, closing)
+        public Hospital(string name, Address address, string website, string number, DateTime opening, DateTime closing)
+            : base(name, address, website, number)
         {
+            this.name = name;
             this.address = address;
             this.website = website;
-            this.number = number;
-            this.opening = opening;
-            this.closing = closing;         
+            this.number = number;      
             count++;
         }
 

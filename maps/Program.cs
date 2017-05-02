@@ -12,7 +12,9 @@ namespace maps
     {
         static void Main(string[] args)
         {
-            Cafe cafe = new Cafe("a", "b", "c", DateTime.Parse("10:30:00"), DateTime.Parse("19:30:00"));
+            Point addressCoord = new Point(10, 10);
+            Address ad = new Address("address", addressCoord);
+            Cafe cafe = new Cafe(ad, "b", "c", DateTime.Parse("10:30:00"), DateTime.Parse("19:30:00"));
             cafe.AddRating(5);
             cafe.AddRating(4);
             cafe.AddRating(5);
