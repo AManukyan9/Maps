@@ -20,8 +20,9 @@ namespace maps
         private decimal popularityRating;
         private DateTime opening;
         private DateTime closing;
-        public Building(Address address, string website, string number, DateTime opening, DateTime closing)
+        public Building(string name, Address address, string website, string number, DateTime opening, DateTime closing)
         {
+            this.name = name;
             this.address = address;
             this.website = website;
             this.number = number;

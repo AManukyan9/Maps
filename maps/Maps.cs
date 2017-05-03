@@ -15,9 +15,9 @@ namespace maps
 
     class Maps
     {
-        private static Dictionary<string, Building> BuildingMap;
-        private static Dictionary<string, Cafe> CafeMap;
-        private static Dictionary<string, Hospital> HospitalMap;
+        private static Dictionary<string, Building> BuildingMap = new Dictionary<string, Building>();
+        private static Dictionary<string, Cafe> CafeMap = new Dictionary<string, Cafe>();
+        private static Dictionary<string, Hospital> HospitalMap = new Dictionary<string, Hospital>();
 
         public static void AddCafe(Cafe cafe)
         {
@@ -32,37 +32,37 @@ namespace maps
             HospitalMap.Add(hospital.Name, hospital);
         }
 
-        public Building FindBuilding(string name)
+        public string FindBuilding(string name)
         {
             if (BuildingMap.ContainsKey(name))
             {
-                return BuildingMap[name];
+                return BuildingMap[name].ToString() + " located at " + BuildingMap[name].Address.Cord;
             }
             else
             {
                 throw new Exception("Building does not exist");
             }
         }
-        public Cafe FindCafe(string name)
+        public string FindCafe(string name)
         {
             if (BuildingMap.ContainsKey(name))
             {
-                return CafeMap[name];
+                return CafeMap[name].ToString() + " located at " + CafeMap[name].Address.Cord;
             }
             else
             {
-                throw new Exception("Building does not exist");
+                throw new Exception(" does not exist");
             }
         }
-        public Hospital FindHospital(string name)
+        public string FindHospital(string name)
         {
             if (BuildingMap.ContainsKey(name))
             {
-                return HospitalMap[name];
+                return HospitalMap[name].ToString() + " located at " + HospitalMap[name].Address.Cord;
             }
             else
             {
-                throw new Exception("Building does not exist");
+                throw new Exception("Hospital does not exist");
             }
         }
 

@@ -13,8 +13,7 @@ namespace maps
         private Address address;
         private string website;
         private string number;
-        private DateTime opening;
-        private DateTime closing;
+      
         private static int count;
         public Hospital(string name, Address address, string website, string number)
             : base(name, address, website, number)
@@ -22,24 +21,30 @@ namespace maps
             this.name = name;
             this.address = address;
             this.website = website;
-            this.number = number;      
+            this.number = number;
             count++;
             Maps.AddHospital(this);
         }
 
         public override string ToString()
-    	{
-    		if(this.name == ""){
-    			return "Hospital";
-    		} else {
-    			return "Hospital " + this.name;
-    		}
-    	}
+        {
+            if (this.name == "")
+            {
+                return "Hospital";
+            }
+            else
+            {
+                return "Hospital " + this.name;
+            }
+        }
 
 
         public string WorkingHours()
         {
             return "Hospital works 24/7";
         }
+
+        
+
     }
 }

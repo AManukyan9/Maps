@@ -18,7 +18,7 @@ namespace maps
         private DateTime closing;
         private static int count;
         public Cafe(string name, Address address, string website, string number, DateTime opening, DateTime closing)
-            : base(address, website, number, opening, closing)
+            : base(name, address, website, number, opening, closing)
         {
             this.name = name;
             this.address = address;
