@@ -14,20 +14,20 @@ namespace maps
         {
             Point addressCoord = new Point(10, 10);
             Address ad = new Address("address", addressCoord);
-            Cafe cafe = new Cafe(ad, "b", "c", DateTime.Parse("10:30:00"), DateTime.Parse("19:30:00"));
+            Cafe cafe = new Cafe("Restoranchik", ad, "b", "c", DateTime.Parse("10:30:00"), DateTime.Parse("19:30:00"));
             cafe.AddRating(5);
             cafe.AddRating(4);
             cafe.AddRating(5);
             cafe.AddRating(3);
-            cafe.AddVisitors();
-            cafe.AddVisitors();
+            cafe.AddVisitors(5);
+            cafe.AddVisitors(1);
             cafe.AddRating(5);
-            cafe.AddVisitors();
+            cafe.AddVisitors(3);
             Console.WriteLine("Rating of this cafe: " + cafe.Rating);
             Console.WriteLine("Popularity rating: " + cafe.Popularity);
             Console.WriteLine(cafe.ToString());
-            Console.WriteLine("Working Hours: " + cafe.WorkingHours());        
-            
+            Console.WriteLine("Working Hours: " + cafe.WorkingHours());
+
         }
     }
 }

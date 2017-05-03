@@ -65,9 +65,9 @@ namespace maps
 			this.ratingCount++;
 		}
 
-		public void AddVisitors()
+		public void AddVisitors(int visitors)
 		{
-			this.visitors++;
+			this.visitors += visitors;
 			this.PopularityCount();
 		}
 

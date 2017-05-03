@@ -8,41 +8,45 @@ using System.Drawing;
 
 namespace maps
 {
-	class Cafe : Building
-	{
-		private string name;
-		private Address address;
-		private string website;
-		private string number;
-		private DateTime opening;
-		private DateTime closing;
-		private static int count;
-		public Cafe(Address address, string website, string number, DateTime opening, DateTime closing)
-			: base(address, website, number, opening, closing)
-		{
-			this.address = address;
-			this.website = website;
-			this.number = number;
-			this.opening = opening;
-			this.closing = closing;
-			count++;
+    class Cafe : Building
+    {
+        private string name;
+        private Address address;
+        private string website;
+        private string number;
+        private DateTime opening;
+        private DateTime closing;
+        private static int count;
+        public Cafe(string name, Address address, string website, string number, DateTime opening, DateTime closing)
+            : base(address, website, number, opening, closing)
+        {
+            this.name = name;
+            this.address = address;
+            this.website = website;
+            this.number = number;
+            this.opening = opening;
+            this.closing = closing;
+            count++;
             Maps.AddCafe(this);
-		}
+        }
 
-		public override string ToString()
-		{
-			if(this.name == ""){
-				return "Cafe";
-			} else {
-				return "Cafe " + this.name;
-			}
-		}
+        public override string ToString()
+        {
+            if (this.name == "")
+            {
+                return "Cafe";
+            }
+            else
+            {
+                return "Cafe " + this.name;
+            }
+        }
 
-		public string WorkingHours()
-		{
-			return this.opening.Hour + ":" + this.opening.Minute + " - " + this.closing.Hour + ":" + this.closing.Minute;
-		}
+        public string WorkingHours()
+        {
+            return this.opening.Hour + ":" + this.opening.Minute + " - " + this.closing.Hour + ":" + this.closing.Minute;
+        }
 
 
-	}
+    }
 }

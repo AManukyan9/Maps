@@ -15,9 +15,9 @@ namespace maps
 
     class Maps
     {
-        private static List<Building> buildings;
-        private static List<Cafe> cafes;
-        private static List<Hospital> hospitals;
+        private static List<Building> buildings = new List<Building>();
+        private static List<Cafe> cafes = new List<Cafe>();
+        private static List<Hospital> hospitals = new List<Hospital>();
 
         public static void AddCafe(Cafe cafe)
         {
@@ -31,6 +31,7 @@ namespace maps
         {
             hospitals.Add(hospital);
         }
+        
     }
 
 
