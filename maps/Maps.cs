@@ -15,23 +15,57 @@ namespace maps
 
     class Maps
     {
-        private static List<Building> buildings = new List<Building>();
-        private static List<Cafe> cafes = new List<Cafe>();
-        private static List<Hospital> hospitals = new List<Hospital>();
+        private static Dictionary<string, Building> BuildingMap;
+        private static Dictionary<string, Cafe> CafeMap;
+        private static Dictionary<string, Hospital> HospitalMap;
 
         public static void AddCafe(Cafe cafe)
         {
-            cafes.Add(cafe);
+            CafeMap.Add(cafe.Name, cafe);
         }
         public static void AddBuilding(Building building)
         {
-            buildings.Add(building);
+            BuildingMap.Add(building.Name, building);  
         }
         public static void AddHospital(Hospital hospital)
         {
-            hospitals.Add(hospital);
+            HospitalMap.Add(hospital.Name, hospital);
         }
-        
+
+        public Building FindBuilding(string name)
+        {
+            if (BuildingMap.ContainsKey(name))
+            {
+                return BuildingMap[name];
+            }
+            else
+            {
+                throw new Exception("Building does not exist");
+            }
+        }
+        public Cafe FindCafe(string name)
+        {
+            if (BuildingMap.ContainsKey(name))
+            {
+                return CafeMap[name];
+            }
+            else
+            {
+                throw new Exception("Building does not exist");
+            }
+        }
+        public Hospital FindHospital(string name)
+        {
+            if (BuildingMap.ContainsKey(name))
+            {
+                return HospitalMap[name];
+            }
+            else
+            {
+                throw new Exception("Building does not exist");
+            }
+        }
+
     }
 
 
