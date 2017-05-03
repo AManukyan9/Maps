@@ -28,9 +28,14 @@ namespace maps
         }
 
         public override string ToString()
-        {
-            return "This is a Hospital";
-        }
+    	{
+    		if(this.name == ""){
+    			return "Hospital";
+    		} else {
+    			return "Hospital " + this.name;
+    		}
+    	}
+
 
         public string WorkingHours()
         {
