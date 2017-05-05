@@ -21,7 +21,7 @@ namespace maps
         {
             Random random = new Random(Guid.NewGuid().GetHashCode());
 
-            string input = "_abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+            string input = "-_&abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
             StringBuilder key = new StringBuilder();
             char keyChar;
             for (int i = 0; i < 16; i++)

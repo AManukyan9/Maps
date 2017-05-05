@@ -14,9 +14,9 @@ namespace maps
         static ArrayList buildings = new ArrayList();
         static List<Cafe> cafes = new List<Cafe>();
 
-        public static decimal BuildingsRadius(Address a, Address b)
+        public static double BuildingsDistance(Address a, Address b)
         {
-            throw new NotImplementedException();
+            return Math.Sqrt((a.Cord.X - b.Cord.X) * (a.Cord.X - b.Cord.X) + (a.Cord.Y - b.Cord.Y) * (a.Cord.Y - b.Cord.Y));
         }
 
         public static ArrayList Nearby(Address address, decimal radius)
