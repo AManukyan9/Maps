@@ -22,14 +22,14 @@ namespace maps
             Random random = new Random(Guid.NewGuid().GetHashCode());
 
             string input = "_abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-            StringBuilder builder = new StringBuilder();
-            char ch;
+            StringBuilder key = new StringBuilder();
+            char keyChar;
             for (int i = 0; i < 16; i++)
             {
-                ch = input[random.Next(0, input.Length)];
-                builder.Append(ch);
+                keyChar = input[random.Next(0, input.Length)];
+                key.Append(keyChar);
             }
-            return builder.ToString();
+            return key.ToString();
         }
 
         public bool IsAdmin
