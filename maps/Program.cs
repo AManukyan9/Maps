@@ -15,10 +15,10 @@ namespace maps
           
         }
 
-        public static void PasswordInput()
+        public static string PasswordInput()
         {
             string pass = "";
-            Console.Write("Enter your password: ");
+            
             ConsoleKeyInfo key;
             do
             {
@@ -38,8 +38,7 @@ namespace maps
                 }
             }
             while (key.Key != ConsoleKey.Enter);
-            Console.WriteLine();
-            Console.WriteLine("The Password You entered is: " + pass);
+            return pass;
         }
 
         public static void YesNoSelect()
