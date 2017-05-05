@@ -17,10 +17,26 @@ namespace maps
             this.password = password;
         }
 
+        private string SessionKeyGenerator()
+        {
+            Random random = new Random((int)DateTime.Now.Ticks);
+
+            string input = "_abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+            StringBuilder builder = new StringBuilder();
+            char ch;
+            for (int i = 0; i < 8; i++)
+            {
+                ch = input[random.Next(0, input.Length)];
+                builder.Append(ch);
+            }
+            return builder.ToString();
+        }
+
         public bool IsAdmin
         {
             get { return this.isAdmin; }
             set { this.isAdmin = value; }
         }
+
     }
 }
