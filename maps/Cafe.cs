@@ -16,7 +16,6 @@ namespace maps
         private string number;
         private DateTime opening;
         private DateTime closing;
-        private static int count;
         public Cafe(string name, Address address, string website, string number, DateTime opening, DateTime closing)
             : base(name, address, website, number, opening, closing)
         {
@@ -26,8 +25,8 @@ namespace maps
             this.number = number;
             this.opening = opening;
             this.closing = closing;
-            count++;
-            
+            Maps.AddBuilding(this);
+            Maps.AddCafe(this);
         }
 
         public override string ToString()
