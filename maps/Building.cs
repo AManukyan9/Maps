@@ -28,7 +28,7 @@ namespace maps
             this.number = number;
             this.opening = opening;
             this.closing = closing;
-            Maps.AddBuilding(this);
+            
         }
 
         public Building(string name, Address address, string website, string number)

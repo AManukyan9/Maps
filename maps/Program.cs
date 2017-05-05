@@ -12,18 +12,55 @@ namespace maps
     {
         static void Main(string[] args)
         {
-            Maps map = new Maps();
-            Point addressCoord = new Point(13, 10);
-            Address ad = new Address("address", addressCoord);
-            Point addressCoord1 = new Point(73, 13);
-            Address ad1 = new Address("address", addressCoord1);
-            Point addressCoord2 = new Point(34, 2);
-            Address ad2 = new Address("address", addressCoord2);
-            Cafe cafe = new Cafe("Restoranchik", ad, "b", "c", DateTime.Parse("10:30:00"), DateTime.Parse("19:30:00"));
-            Cafe cafe1 = new Cafe("Restoranchik1", ad1, "b", "c", DateTime.Parse("10:30:00"), DateTime.Parse("19:30:00"));
-            Cafe cafe2 = new Cafe("Restoranchik2", ad2, "b", "c", DateTime.Parse("10:30:00"), DateTime.Parse("19:30:00"));
-            Console.WriteLine(map.FindCafe("Restoranchik2"));
-                      
+            
+        }
+
+        public static void PasswordInput()
+        {
+            string pass = "";
+            Console.Write("Enter your password: ");
+            ConsoleKeyInfo key;
+            do
+            {
+                key = Console.ReadKey(true);
+                if (key.Key != ConsoleKey.Backspace && key.Key != ConsoleKey.Enter && key.Key != ConsoleKey.Spacebar)
+                {
+                    pass += key.KeyChar;
+                    Console.Write("*");
+                }
+                else
+                {
+                    if (key.Key == ConsoleKey.Backspace && pass.Length > 0)
+                    {
+                        pass = pass.Substring(0, (pass.Length - 1));
+                        Console.Write("\b \b");
+                    }
+                }
+            }
+            while (key.Key != ConsoleKey.Enter);
+            Console.WriteLine();
+            Console.WriteLine("The Password You entered is: " + pass);
+        }
+
+        public static void YesNoSelect()
+        {
+            Console.WriteLine("Y/N");
+            ConsoleKeyInfo key = Console.ReadKey();
+            if (key.KeyChar.Equals('y'))
+            {
+                Console.Write("\b \b");
+                Console.WriteLine("you selected Yes");
+            }
+            else if (key.KeyChar.Equals('n'))
+            {
+                Console.Write("\b \b");
+                Console.WriteLine("you selected No");
+            }
+            else
+            {
+                Console.Write("\b \b");
+                Console.WriteLine("Select Yes or No");
+            }
         }
     }
 }

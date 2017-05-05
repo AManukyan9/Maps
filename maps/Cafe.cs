@@ -27,7 +27,7 @@ namespace maps
             this.opening = opening;
             this.closing = closing;
             count++;
-            Maps.AddCafe(this);
+            
         }
 
         public override string ToString()
