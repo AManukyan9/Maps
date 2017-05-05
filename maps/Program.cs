@@ -12,13 +12,17 @@ namespace maps
     {
         static void Main(string[] args)
         {
-          
+            Console.Write("Input your username: ");
+            string username = Console.ReadLine();
+            Console.Write("Input you password: ");
+            string password = PasswordInput();
+            User user = new maps.User(username, password);         
         }
 
-        public static void PasswordInput()
+        public static string PasswordInput()
         {
             string pass = "";
-            Console.Write("Enter your password: ");
+            
             ConsoleKeyInfo key;
             do
             {
@@ -38,8 +42,7 @@ namespace maps
                 }
             }
             while (key.Key != ConsoleKey.Enter);
-            Console.WriteLine();
-            Console.WriteLine("The Password You entered is: " + pass);
+            return pass;
         }
 
         public static void YesNoSelect()
