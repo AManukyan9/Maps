@@ -12,11 +12,7 @@ namespace maps
     {
         static void Main(string[] args)
         {
-            Console.Write("Input your username: ");
-            string username = Console.ReadLine();
-            Console.Write("Input you password: ");
-            string password = PasswordInput();
-            User user = new maps.User(username, password);         
+                   
         }
 
         public static string PasswordInput()
