@@ -19,7 +19,7 @@ namespace maps
 
         private string SessionKeyGenerator()
         {
-            Random random = new Random((int)DateTime.Now.Ticks);
+            Random random = new Random(Guid.NewGuid().GetHashCode());
 
             string input = "_abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
             StringBuilder builder = new StringBuilder();
