@@ -17,7 +17,7 @@ namespace maps
             this.password = password;
         }
 
-        private string SessionKeyGenerator()
+        private string GenerateSessionKey()
         {
             Random random = new Random(Guid.NewGuid().GetHashCode());
 

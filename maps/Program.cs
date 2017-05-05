@@ -12,7 +12,7 @@ namespace maps
     {
         static void Main(string[] args)
         {
-            
+          
         }
 
         public static void PasswordInput()
