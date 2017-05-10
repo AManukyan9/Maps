@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Device;
+using System.Device.Location;
 using System.Drawing;
 
 namespace maps
@@ -11,15 +11,15 @@ namespace maps
     class Address
     {
         private string addressName;
-        private Point cord;
+        private GeoCoordinate coord;
 
-        public Address(string addressName, Point cord)
+        public Address(string addressName, GeoCoordinate coord)
         {
             this.addressName = addressName;
-            this.cord = cord;
+            this.coord = coord;
         }
 
         public string AddressName { get { return this.addressName; } }
-        public Point Cord { get { return this.cord; } }
+        public GeoCoordinate Coord { get { return this.coord; } }
     }
 }

@@ -4,94 +4,104 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Drawing;
+using System.Device.Location;
+using MySql.Data.MySqlClient;
 
 
 namespace maps
 {
-    static class Maps 
+    class Maps
     {
-        static ArrayList buildings = new ArrayList();
 
-        public static double BuildingsDistance(Address a, Address b)
-        {
-            return Math.Sqrt((a.Cord.X - b.Cord.X) * (a.Cord.X - b.Cord.X) + (a.Cord.Y - b.Cord.Y) * (a.Cord.Y - b.Cord.Y));
-        }
+        private static List<Cafe> cafes = new List<Cafe>();
 
-        public static ArrayList Nearby(Address address, double radius)
+        public static void Fill()
         {
-            ArrayList returnBuildings = new ArrayList();
-            for (int i = 0; i < buildings.Count; i++)
-            {    
-                if (BuildingsDistance(address, ((Building)buildings[i]).Address) <= radius)
-                {
-                    returnBuildings.Add(buildings[i]);
-                }
-            }
-            return returnBuildings;
-        }
-
-        public static ArrayList Search(Address address = null, string name = "", decimal rating = 0)
-        {
-            ArrayList returnBuildings = new ArrayList();
-            bool[] filled = new bool[buildings.Count];
-            if (address == null)
+            string conString = "server=127.0.0.1;database=mapsdb;uid=Armen";
+            MySqlConnection conn = new MySqlConnection(conString);
+            try
             {
-                if (name != "")
+                MySqlCommand selectAll = new MySqlCommand("SELECT * FROM `cafedb` WHERE 1", conn);
+
+                conn.Open();
+
+                using (MySqlDataReader dr = selectAll.ExecuteReader())
                 {
-                    for (int i = 0; i < buildings.Count; i++)
+                    while (dr.Read())
                     {
-                        if ((((Building)buildings[i]).Name == name && ((Building)buildings[i]).Rating >= rating) && filled[i] != true)
-                        {
-                            returnBuildings.Add(buildings[i]);
-                            filled[i] = true;
-                        }
-                    }
-                }
-                for (int i = 0; i < buildings.Count; i++)
-                {
-                    if ((((Building)buildings[i]).Name == name || ((Building)buildings[i]).Rating >= rating) && filled[i] != true)
-                    {
-                        returnBuildings.Add(buildings[i]);
-                        filled[i] = true;
+                        
+                        GeoCoordinate gc = new GeoCoordinate(dr.GetDouble(3), dr.GetDouble(2));
+                        Address ad = new Address(dr.GetString(1), gc);
+                        Cafe cafe = new Cafe(dr.GetString(0), ad, dr.GetString(5), dr.GetString(4), DateTime.Parse(dr.GetString(6)), DateTime.Parse(dr.GetString(7)));
+                        
                     }
                 }
             }
-            else
+            catch (Exception e)
             {
-                if (name != "")
-                {
-                    for (int i = 0; i < buildings.Count; i++)
-                    {
-                        if ((((Building)buildings[i]).Address == address && ((Building)buildings[i]).Name == name && ((Building)buildings[i]).Rating >= rating) && filled[i] != true)
-                        {
-                            returnBuildings.Add(buildings[i]);
-                            filled[i] = true;
-                        }
-                    }
-                }
-                else
-                {
-                    for (int i = 0; i < buildings.Count; i++)
-                    {
-                        if ((((Building)buildings[i]).Address == address && ((Building)buildings[i]).Rating >= rating) && filled[i] != true)
-                        {
-                            returnBuildings.Add(buildings[i]);
-                            filled[i] = true;
-                        }
-                    }
-                }
-                for (int i = 0; i < buildings.Count; i++)
-                {
-                    if ((((Building)buildings[i]).Address == address || ((Building)buildings[i]).Name == name ||((Building)buildings[i]).Rating >= rating) && filled[i] != true)
-                    {
-                        returnBuildings.Add(buildings[i]);
-                        filled[i] = true;
-                    }
-                }
+                throw e;
+            }
+            finally
+            {
+                conn.Close();
+            }
+        }
 
-            }     
-            return returnBuildings;   
+        public static double Distance(Address a, Address b)
+        {
+            return a.Coord.GetDistanceTo(b.Coord);
+        }
+
+        public static List<Cafe> NearbyCafes(Address address, double radius)
+        {
+            List<Cafe> CCollection = new List<Cafe>();
+            for (int i = 0; i < cafes.Count; i++)
+            {
+                if (Distance(address, (cafes[i]).Address) <= radius)
+                {
+                    CCollection.Add(cafes[i]);
+                }
+            }
+            return CCollection;
+        }
+
+        public static List<Cafe> Search(string name, Address address, double radius, decimal rating, DateTime opening, DateTime closing)
+        {
+            List<Cafe> returnCafe = new List<Cafe>();
+            int[] filled = new int[cafes.Count];
+            for (int i = 0; i < cafes.Count; i++)
+            {
+                filled[i] = (Distance(address, cafes[i].Address) <= radius ? 1 : 0) + (cafes[i].Address == address ? 1 : 0) + (cafes[i].Name == name ? 1 : 0) + ((cafes[i]).Rating >= rating ? 1 : 0) + (CompareDateTime(cafes[i].Closing, closing) ? 0 : 1) + (CompareDateTime(cafes[i].Opening, opening) ? 1 : 0);
+            }
+            for (int i = 6; i >= 1; i--)
+            {
+                for (int j = 0; j < cafes.Count; j++)
+                {
+                    if (filled[j] == i)
+                    {
+                        returnCafe.Add(cafes[j]);
+                    }
+                }
+            }
+
+            return returnCafe;
+
+        }
+
+        private static bool CompareDateTime(DateTime a, DateTime b)
+        {
+            TimeSpan difference = (a - b);
+            return (difference.TotalMilliseconds < 0);
+        }
+
+        public static void AddCafe(Cafe cafe)
+        {
+            cafes.Add(cafe);
+        }
+
+        public static bool ContainsCafe(Cafe cafe)
+        {
+            return cafes.Contains(cafe);
         }
 
     }
