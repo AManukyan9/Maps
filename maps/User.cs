@@ -72,10 +72,14 @@ namespace maps
 
         public static bool SessionCheck(string username, string key)
         {
-            if (users[username] == key && key != null)
+            if (users[username] == key && key != "")
+            {
                 return true;
+            }
             else
+            {
                 return false;
+            }
         }
 
         public static string Auth(string username, string password)
@@ -157,8 +161,6 @@ namespace maps
                         users.Add(dr.GetString("User"),"");
                     }
                 }
-
-
 
             }
             catch (Exception e)

@@ -35,11 +35,16 @@ namespace maps
             try
             {
                 conn.Open();
+                MySqlCommand select = new MySqlCommand(string.Format("SELECT `Name`, `Address` FROM `cafedb` WHERE Name = '{0}' AND Address = '{1}'", this.name, this.address.AddressName), conn);
 
-                MySqlCommand delete = new MySqlCommand(string.Format("DELETE FROM `cafedb` WHERE Address = '{0}'", this.Address.AddressName), conn);
-                delete.ExecuteNonQuery();
-                cmd.ExecuteNonQuery();
-
+                if (Maps.ContainsCafe(this.name, this.address.AddressName) && select.ExecuteScalar() != null)
+                {
+                    throw new ArgumentException("Cafe with same Name and Address already exists");
+                }
+                if(select.ExecuteScalar() == null)
+                {
+                    cmd.ExecuteNonQuery();
+                }
             }
             catch (Exception e)
             {
@@ -49,11 +54,7 @@ namespace maps
             {
                 conn.Close();
             }
-            if (Maps.ContainsCafe(this))
-            {
-                throw new ArgumentException("Cafe already exists on this address");
-            }
-            else
+            if (!Maps.ContainsCafe(this.name, this.address.AddressName))
             {
                 Maps.AddCafe(this);
             }
@@ -68,7 +69,7 @@ namespace maps
             }
             else
             {
-                return "Cafe " + this.name;
+                return "Cafe " + this.name + " " + this.address.AddressName;
             }
         }
 

@@ -36,19 +36,14 @@ namespace maps
             this.number = number;
         }
 
-        public void AddRating(string user, decimal rating, string review, string sessionkey)
+        public void AddRating(Review rev)
         {
-            if (User.SessionCheck(user, sessionkey))
-            {
-                Review rev = new Review(review, rating, user, this);
-                if (reviews.ContainsKey(user))
+                if (reviews.ContainsKey(rev.Username))
                 {
-                    reviews.Remove(user);
+                    reviews.Remove(rev.Username);
                 }
-                reviews.Add(user, rev);
+                reviews.Add(rev.Username, rev);
                 this.AverageRating();
-            }
-
         }
         public override string ToString()
         {
