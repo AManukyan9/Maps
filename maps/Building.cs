@@ -14,7 +14,7 @@ namespace maps
         private string number;
         private string name;
         private Dictionary<string, Review> reviews = new Dictionary<string, Review>();
-        private decimal rating;
+        private decimal rating = 1;
         private decimal popularityRating;
         private DateTime opening;
         private DateTime closing;

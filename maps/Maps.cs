@@ -12,7 +12,6 @@ namespace maps
 {
     class Maps
     {
-
         private static List<Cafe> cafes = new List<Cafe>();
 
         public static void Fill()

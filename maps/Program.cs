@@ -15,6 +15,8 @@ namespace maps
         {
             string sessionID = "";
             string currentUser = "";
+            Cafe currentCafe = null;
+            List<Cafe> currentCafes = new List<Cafe>();
 
             DumpDatabase();
 
@@ -67,15 +69,70 @@ namespace maps
                         }
                         break;
 
-                    case "Find Cafe": //Areg make me
+                    case "Find Cafe":
+                        try
+                        {
+                            Console.WriteLine("Please input the name of the cafe you would like to find:");
+                            string nameCafe = Console.ReadLine();
+                            Console.WriteLine("Please input the address of the cafe:");
+                            string address = Console.ReadLine();
+                            Console.WriteLine("Please input the radius:");
+                            double radius = Convert.ToDouble(Console.ReadLine());
+                            Console.WriteLine("Please input the rating:");
+                            decimal rating = Convert.ToDecimal(Console.ReadLine());
+                            Console.WriteLine("Please input the opening time:");
+                            DateTime openingTemp = DateTime.Parse(Console.ReadLine());
+                            Console.WriteLine("Please input the closing time:");
+                            DateTime closingTemp = DateTime.Parse(Console.ReadLine());
+                            int i = 1;
+                            currentCafes = Maps.Search(nameCafe, address, radius, rating, openingTemp, closingTemp);
+                            foreach (Cafe item in currentCafes)
+                            {
+                                Console.WriteLine(i + ". " + item.ToString());
+                                i++;
+                            }
+                        }
+                        catch
+                        {
+                            Console.WriteLine("Cafe does not exist");
+                        }
+                        break;
 
+                    case "Choose Cafe":
+                        try
+                        {
+                            Console.WriteLine("Please input search query number:");
+                            int num = Convert.ToInt32(Console.ReadLine());
+                            currentCafe = currentCafes[num - 1];
+                            Console.WriteLine("Cafe selected successfully: " + currentCafe.ToString());
+                        }
+                        catch
+                        {
+                            Console.WriteLine("Cafe does not exist");
+                        }
+                        break;
+
+                    case "Select Cafe":
+                        try
+                        {
+                            Console.WriteLine("Please input the name of the cafe you would like to select:");
+                            string nameSelect = Console.ReadLine();
+                            Console.WriteLine("Please input the address of the cafe you would like to select:");
+                            string addressSelect = Console.ReadLine();
+                            currentCafe = Maps.ReturnCafe(nameSelect, addressSelect);
+                            Console.WriteLine("Cafe selected successfully: " + currentCafe.ToString());
+                        }
+                        catch
+                        {
+                            Console.WriteLine("Cafe does not exist");
+                        }
                         break;
 
                     case "Register":
                         try
                         {
                             Console.WriteLine("Please input a desired username:");
-                            string username = Console.ReadLine();
+                            string username = Console.ReadLine().Trim();
                             Console.WriteLine("Please input a password:");
                             string password = PasswordInput();
                             User.Register(username, password);
@@ -90,15 +147,22 @@ namespace maps
                     case "Login":
                         try
                         {
-                            Console.WriteLine("Please input your username:");
-                            string usernameLog = Console.ReadLine();
-                            Console.WriteLine("Please input your password:");
-                            string passwordLog = PasswordInput();
-                            sessionID = User.Auth(usernameLog, passwordLog);
-                            if (!sessionID.Equals(null))
+                            if (currentUser == "" && sessionID == "")
                             {
-                                currentUser = usernameLog;
-                                Console.WriteLine("Logged in successfully");
+                                Console.WriteLine("Please input your username:");
+                                string usernameLog = Console.ReadLine().Trim();
+                                Console.WriteLine("Please input your password:");
+                                string passwordLog = PasswordInput();
+                                sessionID = User.Auth(usernameLog, passwordLog);
+                                if (!sessionID.Equals(null))
+                                {
+                                    currentUser = usernameLog;
+                                    Console.WriteLine("Logged in successfully");
+                                }
+                            }
+                            else
+                            {
+                                Console.WriteLine("A User is already logged in");
                             }
                         }
                         catch
@@ -107,6 +171,73 @@ namespace maps
                         }
                         break;
 
+                    case "Logout":
+                        if (currentUser != "" && sessionID != "")
+                        {
+                            Console.WriteLine(currentUser + " Logged out");
+                            sessionID = "";
+                            currentUser = "";
+                        }
+                        else
+                        {
+                            Console.WriteLine("No user is logged in");
+                        }
+                        break;
+
+                    case "Change Password":
+                        if (currentUser != "" && sessionID != "")
+                        {
+                            try
+                            {
+                                Console.WriteLine("Please enter your new password");
+                                string newPass = PasswordInput();
+                                User.ChangePass(currentUser, sessionID, newPass);
+                                Console.WriteLine("Password updated successfully!");
+                            }
+                            catch
+                            {
+                                Console.WriteLine("Unexpected Error");
+                            }
+
+                        }
+                        break;
+
+                    case "Leave Review":
+                        try
+                        {
+                            Console.WriteLine("How much would you like to rate?");
+                            decimal ratingReview = Convert.ToInt32(Console.ReadLine());
+                            Console.WriteLine("Leave a review:");
+                            string review = Console.ReadLine();
+                            Review rev = new Review(review, ratingReview, currentUser, currentCafe, sessionID);
+                            Console.WriteLine("Thanks for your feedback!");
+                        }
+                        catch
+                        {
+                            Console.WriteLine("Please sign in before leaving a review");
+                        }
+                        break;
+
+                    case "Show Reviews":
+                        if (currentCafe != null)
+                        {
+                            if (currentCafe.Reviews.Count != 0)
+                            {
+                                foreach (Review item in currentCafe.Reviews.Values)
+                                {
+                                    Console.WriteLine(item.ToString());
+                                }
+                            }
+                            else
+                            {
+                                Console.WriteLine("There are no reviews yet");
+                            }
+                        }
+                        else
+                        {
+                            Console.WriteLine("Please select a cafe first");
+                        }
+                        break;
 
 
                     case "write session id":
@@ -129,6 +260,10 @@ namespace maps
                         {
                             Console.WriteLine("No current session!");
                         }
+                        break;
+
+                    case "Open Website":
+                        currentCafe.OpenWebsite();
                         break;
 
                     default:
@@ -164,7 +299,7 @@ namespace maps
                     while (key.KeyChar != 'y' || key.KeyChar != 'n')
                     {
                         Console.Write("\b \b");
-                        
+
                         Console.Write("\b \b");
                         if (key.KeyChar.Equals('y'))
                         {
@@ -200,14 +335,29 @@ namespace maps
             }
         }
 
-        public static string Help() //fix later
+        public static string Help()
         {
-            return null;
+            return "?- Displays all available commands." + '\n'
+                + "Info- Displays program info." + '\n'
+                + "Clear- Clears the console." + '\n'
+                + "Create a Cafe- Creates a Cafe." + '\n'
+                + "Find Cafe- Find specified cafe." + '\n'
+                + "Select Cafe- Selects a Cafe(use only if you know the location of cafe)." + '\n'
+                + "Choose- Selects a cafe from the search result." + '\n'
+                + "Show Reviews- Shows the reviews of a selected cafe." + '\n'
+                + "Leave Review- Leaves a review(log in first)." + '\n'
+                + "Open Website- Opens the website of the selected cafe." + '\n'
+                + "Register- Creates a user." + '\n'
+                + "Login- Logs in a user." + '\n'
+                + "Logout- Logs out a user." + '\n'                            
+                + "Change Password- Changes password of the user." + '\n'
+                + "check session- checks session(for testing)." + '\n'
+                + "write session id- Writes the session id of the current user(for testing)." + '\n';
         }
 
-        public static string Info() //fix later
+        public static string Info()
         {
-            return null;
+            return ("Map, Project by Armen Manukyan, Areg Vrtanesyan, Samvel Baghdasaryan & Vahe Hayrapetyan, 2017");
         }
 
         public static string PasswordInput()
@@ -246,6 +396,6 @@ namespace maps
         {
             return "Incorrect command, type ? for list of commands.";
         }
-       
+
     }
 }
