@@ -30,9 +30,9 @@ namespace maps
             this.number = number;
             this.opening = opening;
             this.closing = closing;
-            MySqlCommand cmd = new MySqlCommand(string.Format("INSERT INTO cafedb (`Name`, `Address`, `Long`, `Lat`, `Phone Number`, `Website`, `Opening Hour`, `Closing Hour`)" +
+            MySqlCommand cmd = new MySqlCommand(string.Format("INSERT INTO cafedb (`Name`, `Address`, `Lat`, `Long`, `Phone Number`, `Website`, `Opening Hour`, `Closing Hour`)" +
                 "VALUES ('{0}','{1}','{2}','{3}','{4}','{5}','{6}','{7}')",
-                this.name, this.Address.AddressName, this.Address.Coord.Longitude, this.Address.Coord.Latitude, this.number, this.website, this.Opening.ToShortTimeString(), this.Closing.ToShortTimeString()), conn);
+                this.name, this.Address.AddressName, this.Address.Coord.Latitude, this.Address.Coord.Longitude, this.number, this.website, this.Opening.ToShortTimeString(), this.Closing.ToShortTimeString()), conn);
             try
             {
                 conn.Open();
