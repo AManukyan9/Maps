@@ -14,6 +14,7 @@ namespace maps
     class Program
     {
         //password for "Guest" is guest ;)
+        //database connection is in App.config
         static void Main(string[] args)
         {
             string sessionID = "";
