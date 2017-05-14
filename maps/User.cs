@@ -13,6 +13,7 @@ namespace maps
     class User
     {
         private static Dictionary<string, string> users = new Dictionary<string, string>();
+
         public static void Register(string username, string password)
         {
             string hash = HashSHA256(password);
@@ -51,7 +52,6 @@ namespace maps
             {
                 conn.Close();
             }
-
 
         }
 
@@ -140,28 +140,24 @@ namespace maps
             }
         }
 
-        public static void FillDictionary()
+        public static void Fill()
         {
 
             string conString = "server=127.0.0.1;database=mapsdb;uid=Armen";
             MySqlConnection conn = new MySqlConnection(conString);
             try
             {
-                
-
                 MySqlCommand selectAll = new MySqlCommand("SELECT `User` FROM `usersdb` WHERE 1", conn);
 
                 conn.Open();
-
 
                 using (MySqlDataReader dr = selectAll.ExecuteReader())
                 {
                     while (dr.Read())
                     {
-                        users.Add(dr.GetString("User"),"");
+                        users.Add(dr.GetString("User"), "");
                     }
                 }
-
             }
             catch (Exception e)
             {
@@ -172,19 +168,18 @@ namespace maps
                 conn.Close();
             }
         }
-    
 
-    private static string HashSHA256(string text)
-    {
-        byte[] bytes = Encoding.UTF8.GetBytes(text);
-        SHA256Managed hashstring = new SHA256Managed();
-        byte[] hash = hashstring.ComputeHash(bytes);
-        string hashString = string.Empty;
-        foreach (byte x in hash)
+        private static string HashSHA256(string text)
         {
-            hashString += String.Format("{0:x2}", x);
+            byte[] bytes = Encoding.UTF8.GetBytes(text);
+            SHA256Managed hashstring = new SHA256Managed();
+            byte[] hash = hashstring.ComputeHash(bytes);
+            string hashString = string.Empty;
+            foreach (byte x in hash)
+            {
+                hashString += String.Format("{0:x2}", x);
+            }
+            return hashString;
         }
-        return hashString;
     }
-}
 }

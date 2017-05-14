@@ -20,9 +20,12 @@ namespace maps
         {
             if (!User.SessionCheck(user, sessionkey) && !User.SessionCheck("admin", sessionkey) && !isFilling)
             {
-                throw new Exception("User not logged in. (Invalid auth)");
+                throw new KeyNotFoundException("User not logged in. (Invalid auth)");
             }
-
+            if (rating != 1 && rating != 2 && rating != 3 && rating != 4 && rating != 5)
+            {
+                throw new ArgumentException("Can't give more than 5 stars.");
+            }
             this.rev = rev;
             this.rating = rating;
             this.user = user;
@@ -65,7 +68,7 @@ namespace maps
                     Console.WriteLine();
                     while (dr.Read())
                     {
-                        new Review(dr.GetString(2), dr.GetDecimal(3), dr.GetString(4), Maps.ReturnCafe(dr.GetString(0), dr.GetString(1)), "");                        
+                        new Review(dr.GetString(2), dr.GetDecimal(3), dr.GetString(4), Maps.ReturnCafe(dr.GetString(0), dr.GetString(1)), "");
                     }
                 }
             }
@@ -82,9 +85,8 @@ namespace maps
 
         public override string ToString()
         {
-            return "Review by: " + this.user + '\n' + this.rating + " Points" + '\n' + this.rev + '\n' + this.name + " at " + this.address;
+            return "▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄" + '\n' + "█ Review by: " + this.user + '\n' + "█ Points: " + this.rating + '\n' + "█ " + this.rev + '\n' + "█ " + this.name + " at " + this.address;
         }
-
 
         public string Rev { get { return this.rev; } }
         public decimal Rating { get { return this.rating; } }
