@@ -468,9 +468,13 @@ namespace maps
 
                 }
             }
-            catch (Exception e)
+            catch (MySqlException)
             {
-                Console.WriteLine(e.ToString());
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄");
+                Console.WriteLine("█ DATABASE CONNECTION FAILED! █");
+                Console.WriteLine("▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀");
+                Console.ResetColor();
             }
             finally
             {
