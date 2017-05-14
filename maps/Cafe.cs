@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Drawing;
 using System.Diagnostics;
 using MySql.Data.MySqlClient;
+using System.Configuration;
 
 namespace maps
 {
@@ -20,7 +21,7 @@ namespace maps
         public Cafe(string name, Address address, string website, string number, DateTime opening, DateTime closing)
             : base(name, address, website, number, opening, closing)
         {
-            string conString = "server=127.0.0.1;database=mapsdb;uid=Armen";
+            string conString = ConfigurationManager.ConnectionStrings["DBConnection"].ConnectionString; ;
             MySqlConnection conn = new MySqlConnection(conString);
 
             this.name = name;

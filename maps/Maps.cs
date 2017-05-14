@@ -6,6 +6,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Device.Location;
 using MySql.Data.MySqlClient;
+using System.Configuration;
+
 
 
 namespace maps
@@ -16,7 +18,7 @@ namespace maps
 
         public static void Fill()
         {
-            string conString = "server=127.0.0.1;database=mapsdb;uid=Armen";
+            string conString = ConfigurationManager.ConnectionStrings["DBConnection"].ConnectionString; ;
             MySqlConnection conn = new MySqlConnection(conString);
             try
             {
@@ -68,7 +70,7 @@ namespace maps
             int[] filled = new int[cafes.Count];
             for (int i = 0; i < cafes.Count; i++)
             {
-                filled[i] = (Distance(Address.GetAddress(address), cafes[i].Address) <= radius ? 1 : 0) + +(cafes[i].Name == name ? 1 : 0) + ((cafes[i]).Rating >= rating ? 1 : 0) + (CompareDateTime(cafes[i].Closing, closing) ? 0 : 1) + (CompareDateTime(cafes[i].Opening, opening) ? 1 : 0);
+                filled[i] = (Distance(Address.GetAddress(address), cafes[i].Address) <= radius ? 1 : 0) + +(cafes[i].Name.Contains(name) ? 1 : 0) + ((cafes[i]).Rating >= rating ? 1 : 0) + (CompareDateTime(cafes[i].Closing, closing) ? 0 : 1) + (CompareDateTime(cafes[i].Opening, opening) ? 1 : 0);
             }
             for (int i = 5; i >= 1; i--)
             {
@@ -90,7 +92,7 @@ namespace maps
             int[] filled = new int[cafes.Count];
             for (int i = 0; i < cafes.Count; i++)
             {
-                filled[i] = (Distance(Address.GetAddress(address), cafes[i].Address) <= radius ? 1 : 0) + +(cafes[i].Name == name ? 1 : 0) + ((cafes[i]).Rating >= rating ? 1 : 0);
+                filled[i] = (Distance(Address.GetAddress(address), cafes[i].Address) <= radius ? 1 : 0) + +(cafes[i].Name.Contains(name) ? 1 : 0) + ((cafes[i]).Rating >= rating ? 1 : 0);
             }
             for (int i = 3; i >= 1; i--)
             {

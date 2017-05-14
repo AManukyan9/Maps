@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using MySql.Data.MySqlClient;
+using System.Configuration;
 
 namespace maps
 {
@@ -32,7 +33,7 @@ namespace maps
             this.name = building.Name;
             this.address = building.Address.AddressName;
 
-            string conString = "server=127.0.0.1;database=mapsdb;uid=Armen";
+            string conString = ConfigurationManager.ConnectionStrings["DBConnection"].ConnectionString; ;
             MySqlConnection conn = new MySqlConnection(conString);
             try
             {
@@ -56,7 +57,7 @@ namespace maps
         public static void Fill()
         {
             isFilling = true;
-            string conString = "server=127.0.0.1;database=mapsdb;uid=Armen";
+            string conString = ConfigurationManager.ConnectionStrings["DBConnection"].ConnectionString; ;
             MySqlConnection conn = new MySqlConnection(conString);
             try
             {
@@ -85,7 +86,7 @@ namespace maps
 
         public override string ToString()
         {
-            return "▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄" + '\n' + "█ Review by: " + this.user + '\n' + "█ Points: " + this.rating + '\n' + "█ " + this.rev + '\n' + "█ " + this.name + " at " + this.address;
+            return "▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄" + '\n' + "█ Review by: " + this.user + '\n' + "█ Points: " + this.rating + '\n' + "█ " + '\"' + this.rev + '\"' + '\n' + "█ " + this.name + " at " + this.address + '\n' + "▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀";
         }
 
         public string Rev { get { return this.rev; } }

@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Device.Location;
 using MySql.Data.MySqlClient;
+using System.Configuration;
 
 
 namespace maps
@@ -231,7 +232,7 @@ namespace maps
                             {
                                 foreach (Review item in currentCafe.Reviews.Values)
                                 {                                    
-                                    Console.WriteLine(item.ToString());                                    
+                                    Console.WriteLine(item.ToString());                                              
                                 }
                             }
                             else
@@ -372,7 +373,7 @@ namespace maps
 
         public static void DumpDatabase()
         {            
-            string conString = "server=127.0.0.1;database=mapsdb;uid=Armen";
+            string conString = ConfigurationManager.ConnectionStrings["DBConnection"].ConnectionString; ;
             MySqlConnection conn = new MySqlConnection(conString);
             
             try

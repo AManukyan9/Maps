@@ -5,8 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Security.Cryptography;
 using MySql.Data.MySqlClient;
-
-
+using System.Configuration;
 
 namespace maps
 {
@@ -17,7 +16,7 @@ namespace maps
         public static void Register(string username, string password)
         {
             string hash = HashSHA256(password);
-            string conString = "server=127.0.0.1;database=mapsdb;uid=Armen";
+            string conString = ConfigurationManager.ConnectionStrings["DBConnection"].ConnectionString; ;
             MySqlConnection conn = new MySqlConnection(conString);
             try
             {
@@ -84,7 +83,7 @@ namespace maps
 
         public static string Auth(string username, string password)
         {
-            string conString = "server=127.0.0.1;database=mapsdb;uid=Armen";
+            string conString = ConfigurationManager.ConnectionStrings["DBConnection"].ConnectionString; ;
             MySqlConnection conn = new MySqlConnection(conString);
             MySqlCommand select = new MySqlCommand(string.Format("SELECT `Password` FROM `usersdb` WHERE User = '{0}'", username), conn);
             try
@@ -120,7 +119,7 @@ namespace maps
         {
             if (SessionCheck(username, key))
             {
-                string conString = "server=127.0.0.1;database=mapsdb;uid=Armen";
+                string conString = ConfigurationManager.ConnectionStrings["DBConnection"].ConnectionString; ;
                 newPass = HashSHA256(newPass);
                 MySqlConnection conn = new MySqlConnection(conString);
                 MySqlCommand select = new MySqlCommand(string.Format("UPDATE `usersdb` SET `Password`='{0}' WHERE User = '{1}'", newPass, username), conn);
@@ -143,7 +142,7 @@ namespace maps
         public static void Fill()
         {
 
-            string conString = "server=127.0.0.1;database=mapsdb;uid=Armen";
+            string conString = ConfigurationManager.ConnectionStrings["DBConnection"].ConnectionString; ;
             MySqlConnection conn = new MySqlConnection(conString);
             try
             {
