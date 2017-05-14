@@ -166,7 +166,7 @@ namespace maps
             {
                 conn.Close();
             }
-        }
+        }   //use to dump database into programm
 
         private static string HashSHA256(string text)
         {

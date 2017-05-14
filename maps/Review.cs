@@ -82,7 +82,7 @@ namespace maps
                 conn.Close();
             }
             isFilling = false;
-        }
+        }   //use to dump database into programm
 
         public override string ToString()
         {

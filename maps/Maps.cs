@@ -29,10 +29,8 @@ namespace maps
                 using (MySqlDataReader dr = selectAll.ExecuteReader())
                 {                    
                     while (dr.Read())
-                    {                       
-                        GeoCoordinate gc = new GeoCoordinate(dr.GetDouble(3), dr.GetDouble(2));
-                        Address ad = new Address(dr.GetString(1), gc);
-                        Cafe cafe = new Cafe(dr.GetString(0), ad, dr.GetString(5), dr.GetString(4), DateTime.Parse(dr.GetString(6)), DateTime.Parse(dr.GetString(7)));
+                    { 
+                        Cafe cafe = new Cafe(dr.GetString(0), Address.GetAddress(dr.GetString(1)),  dr.GetString(5), dr.GetString(4), DateTime.Parse(dr.GetString(6)), DateTime.Parse(dr.GetString(7)));
                     }
                 }
             }
@@ -44,7 +42,7 @@ namespace maps
             {
                 conn.Close();
             }
-        }
+        }   //use to dump database into programm
 
         public static double Distance(Address a, Address b)
         {

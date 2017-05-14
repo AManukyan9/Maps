@@ -40,9 +40,9 @@ namespace maps
 
                 if (Maps.ContainsCafe(this.name, this.address.AddressName) && select.ExecuteScalar() != null)
                 {
-                    throw new ArgumentException("Cafe with same Name and Address already exists");                    
+                    throw new ArgumentException("Cafe with same Name and Address already exists");
                 }
-                if(select.ExecuteScalar() == null)
+                if (select.ExecuteScalar() == null)
                 {
                     cmd.ExecuteNonQuery();
                 }
@@ -56,9 +56,7 @@ namespace maps
                 conn.Close();
             }
             if (!Maps.ContainsCafe(this.name, this.address.AddressName))
-            {
                 Maps.AddCafe(this);
-            }          
         }
 
         public override string ToString()

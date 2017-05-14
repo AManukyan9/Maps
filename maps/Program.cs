@@ -13,7 +13,7 @@ namespace maps
 
     class Program
     {
-        //password for "Guest" is guest ;)
+        //password for "guest" is guest ;)
         //database connection is in App.config
         static void Main(string[] args)
         {
@@ -24,13 +24,16 @@ namespace maps
 
             DumpDatabase();
 
+            Console.WriteLine(Welcome());
+            Console.WriteLine(Help());
+
             while (true)
             {
                 string command;
                 command = Console.ReadLine().Trim();
                 switch (command)
                 {
-                    case "?":
+                    case "Help":
                         Console.WriteLine(Help());
                         break;
 
@@ -46,10 +49,23 @@ namespace maps
                         Console.WriteLine(Info());
                         break;
 
+                    case "Create Street":
+                        try
+                        {
+                            CreateStreet();
+                            Console.WriteLine("Street created succesfully");
+                        }
+                        catch (ArgumentException e)
+                        {
+                            Console.WriteLine("Creation failed, reason: " + e.Message);
+                        }
+                        break;
+
                     case "Create Cafe":
                         try
                         {
                             CreateCafe();
+                            Console.WriteLine("Cafe created successfully!");
                         }
                         catch (ArgumentException e)
                         {
@@ -89,9 +105,9 @@ namespace maps
                         break;
 
                     case "Nearby Cafes":
-                        Console.WriteLine("Please input an address");
-                        string addTemp = Console.ReadLine();
-                        Console.WriteLine("Please input radius (meter)");
+                        Console.WriteLine("Please input an ADDRESS");
+                        string addTemp = Console.ReadLine().Trim();
+                        Console.WriteLine("Please input RADIUS (meter)");
                         double radiusTemp = Convert.ToDouble(Console.ReadLine());
                         currentCafes = Maps.NearbyCafes(Address.GetAddress(addTemp), radiusTemp);
                         int j = 1;
@@ -105,10 +121,10 @@ namespace maps
                     case "Select Cafe":
                         try
                         {
-                            Console.WriteLine("Please input the name of the cafe you would like to select:");
-                            string nameSelect = Console.ReadLine();
-                            Console.WriteLine("Please input the address of the cafe you would like to select:");
-                            string addressSelect = Console.ReadLine();
+                            Console.WriteLine("Please input the NAME of the cafe you would like to select:");
+                            string nameSelect = Console.ReadLine().Trim();
+                            Console.WriteLine("Please input the ADDRESS of the cafe you would like to select:");
+                            string addressSelect = Console.ReadLine().Trim();
                             currentCafe = Maps.ReturnCafe(nameSelect, addressSelect);
                             Console.WriteLine("Cafe selected successfully: " + currentCafe.ToString());
                         }
@@ -121,9 +137,9 @@ namespace maps
                     case "Register":
                         try
                         {
-                            Console.WriteLine("Please input a desired username:");
+                            Console.WriteLine("Please input a desired USERNAME:");
                             string username = Console.ReadLine().Trim();
-                            Console.WriteLine("Please input a password:");
+                            Console.WriteLine("Please input a PASSWORD:");
                             string password = PasswordInput();
                             User.Register(username, password);
                             Console.WriteLine("Successfully register user: " + username);
@@ -139,9 +155,9 @@ namespace maps
                         {
                             if (currentUser.Equals("") && sessionID.Equals(""))
                             {
-                                Console.WriteLine("Please input your username:");
+                                Console.WriteLine("Please input your USERNAME:");
                                 string usernameLog = Console.ReadLine().Trim();
-                                Console.WriteLine("Please input your password:");
+                                Console.WriteLine("Please input your PASSWORD:");
                                 string passwordLog = PasswordInput();
                                 sessionID = User.Auth(usernameLog, passwordLog);
                                 Console.WriteLine(currentUser);
@@ -182,7 +198,7 @@ namespace maps
                         {
                             try
                             {
-                                Console.WriteLine("Please enter your new password");
+                                Console.WriteLine("Please enter your NEW PASSWORD");
                                 string newPass = PasswordInput();
                                 User.ChangePass(currentUser, sessionID, newPass);
                                 Console.WriteLine("Password updated successfully!");
@@ -213,7 +229,7 @@ namespace maps
                             }
                             else
                             {
-                                Console.WriteLine("Please login before leaving a review");
+                                Console.WriteLine("Please LOGIN before leaving a review");
                             }
                         }
                         catch (ArgumentException e)
@@ -232,8 +248,8 @@ namespace maps
                             if (currentCafe.Reviews.Count != 0)
                             {
                                 foreach (Review item in currentCafe.Reviews.Values)
-                                {                                    
-                                    Console.WriteLine(item.ToString());                                              
+                                {
+                                    Console.WriteLine(item.ToString());
                                 }
                             }
                             else
@@ -243,7 +259,7 @@ namespace maps
                         }
                         else
                         {
-                            Console.WriteLine("Please select a cafe first");
+                            Console.WriteLine("Please SELECT a cafe first");
                         }
                         break;
 
@@ -285,6 +301,17 @@ namespace maps
                         }
                         break;
 
+                    case "Working Hours":
+                        try
+                        {
+                            Console.WriteLine(currentCafe.WorkingHours());
+                        }
+                        catch (NullReferenceException)
+                        {
+                            Console.WriteLine("No cafe is currently selected!");
+                        }
+                        break;
+
                     default:
                         Console.WriteLine(ErrorMessage());
                         break;
@@ -292,38 +319,43 @@ namespace maps
             }
         }
 
-        public static void CreateCafe()
+        public static void CreateStreet()
         {
-            Console.WriteLine("Please input a desired name:");
-            string name = Console.ReadLine();
-            Console.WriteLine("Please input a desired street name:");
-            string street = Console.ReadLine();
-            Console.WriteLine("Please input the coordinates (Lat, Long accordingly):");
+            Console.WriteLine("Please input STREET NAME:");
+            string strName = Console.ReadLine().Trim();
+            Console.WriteLine("Please input the CO-ORDINATES (Lat, Long accordingly):");
             double lat = Convert.ToDouble(Console.ReadLine());
             double longitude = Convert.ToDouble(Console.ReadLine());
             GeoCoordinate geo = new GeoCoordinate(lat, longitude);
-            Address adr = new Address(street, geo);
-            Console.WriteLine("Please input the website:");
-            string website = Console.ReadLine();
-            Console.WriteLine("Please input the phone number:");
-            string number = Console.ReadLine();
-            Console.WriteLine("Please input the opening time and closing time accordingly:");
+            Address adr = new Address(strName, geo);
+        }
+
+        public static void CreateCafe()
+        {
+            Console.WriteLine("Please input a desired NAME:");
+            string name = Console.ReadLine().Trim();
+            Console.WriteLine("Please input a desired ADDRESS:");
+            string street = Console.ReadLine().Trim();                  
+            Console.WriteLine("Please input WEBSITE URL:");
+            string website = Console.ReadLine().Trim();
+            Console.WriteLine("Please input the PHONE NUMBER:");
+            string number = Console.ReadLine().Trim();
+            Console.WriteLine("Please input the OPENING TIME and CLOSING TIME accordingly:");
             DateTime opening = DateTime.Parse(Console.ReadLine());
             DateTime closing = DateTime.Parse(Console.ReadLine());
-            Cafe cafe = new Cafe(name, adr, website, number, opening, closing);
-            Console.WriteLine("Cafe created successfully!");
-        }   
+            Cafe cafe = new Cafe(name, Address.GetAddress(street), website, number, opening, closing);            
+        }
 
         public static List<Cafe> SearchCafes()
         {
             List<Cafe> currentCafes = new List<Cafe>();
-            Console.WriteLine("Please input the name of the cafe you would like to find:");
-            string nameCafe = Console.ReadLine();
-            Console.WriteLine("Please input the address of the cafe:");
-            string address = Console.ReadLine();
-            Console.WriteLine("Please input the radius:");
+            Console.WriteLine("Please input the NAME of the cafe you would like to find:");
+            string nameCafe = Console.ReadLine().Trim();
+            Console.WriteLine("Please input the ADDRESS of the cafe:");
+            string address = Console.ReadLine().Trim();
+            Console.WriteLine("Please input the RADIUS:");
             double radius = Convert.ToDouble(Console.ReadLine());
-            Console.WriteLine("Search by minimum rating?");
+            Console.WriteLine("Search by MINIMUM RATING?");
             Console.WriteLine("Y/N");
             decimal rating = 0;
             ConsoleKeyInfo key = Console.ReadKey();
@@ -341,7 +373,7 @@ namespace maps
                 }
                 key = Console.ReadKey();
             }
-            Console.WriteLine("Search by DateTime?");
+            Console.WriteLine("Search by WORKING HOURS?");
             Console.WriteLine("Y/N");
             key = Console.ReadKey();
 
@@ -368,28 +400,30 @@ namespace maps
                 }
                 key = Console.ReadKey();
             }
-            
+
             return currentCafes;
         }
 
         public static void DumpDatabase()
-        {            
+        {
             string conString = ConfigurationManager.ConnectionStrings["DBConnection"].ConnectionString; ;
             MySqlConnection conn = new MySqlConnection(conString);
-            
+
             try
             {
                 MySqlCommand selectAllCafe = new MySqlCommand("SELECT COUNT(*) FROM `cafedb`", conn);
                 MySqlCommand selectAllUser = new MySqlCommand("SELECT COUNT(*) FROM `usersdb`", conn);
                 MySqlCommand selectAllReview = new MySqlCommand("SELECT COUNT(*) FROM `reviewsdb`", conn);
+                MySqlCommand selectAllAddress = new MySqlCommand("SELECT COUNT(*) FROM `addressdb`", conn);
                 MySqlCommand deleteDataCafe = new MySqlCommand("DELETE FROM `cafedb` WHERE 1", conn);
                 MySqlCommand deleteDataUser = new MySqlCommand("DELETE FROM `usersdb` WHERE 1", conn);
                 MySqlCommand deleteDataReview = new MySqlCommand("DELETE FROM `reviewsdb` WHERE 1", conn);
+                MySqlCommand deleteDataAddress = new MySqlCommand("DELETE FROM `addressdb` WHERE 1", conn);
                 MySqlCommand addAdmin = new MySqlCommand("INSERT INTO `usersdb`(`User`,`Password`) VALUES ('admin','8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918')", conn);
 
                 conn.Open();
 
-                if (Convert.ToInt32(selectAllCafe.ExecuteScalar()) > 0 || Convert.ToInt32(selectAllUser.ExecuteScalar()) > 0 || Convert.ToInt32(selectAllReview.ExecuteScalar()) > 0)
+                if (Convert.ToInt32(selectAllCafe.ExecuteScalar()) > 0 || Convert.ToInt32(selectAllUser.ExecuteScalar()) > 0 || Convert.ToInt32(selectAllReview.ExecuteScalar()) > 0 || Convert.ToInt32(selectAllAddress.ExecuteScalar()) > 0)
                 {
                     Prompt();
                     Console.WriteLine("Y/N");
@@ -397,16 +431,21 @@ namespace maps
 
                     while (key.KeyChar != 'y' || key.KeyChar != 'n')
                     {
-                        
+
 
                         Console.Write("\b \b");
                         if (key.KeyChar.Equals('y'))
                         {
                             Console.Write("\b \b");
                             User.Fill();
+                            Address.Fill();
                             Maps.Fill();
-                            Review.Fill();
-                            Console.WriteLine("Database loaded successfully");
+                            Review.Fill();                            
+                            Console.ForegroundColor = ConsoleColor.Yellow;
+                            Console.WriteLine("▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄");
+                            Console.WriteLine("█ DATABASE LOADED SUCCESSFULLY! █");
+                            Console.WriteLine("▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀");
+                            Console.ResetColor();
                             break;
                         }
                         else if (key.KeyChar.Equals('n'))
@@ -415,8 +454,13 @@ namespace maps
                             deleteDataCafe.ExecuteNonQuery();
                             deleteDataUser.ExecuteNonQuery();
                             deleteDataReview.ExecuteNonQuery();
+                            deleteDataAddress.ExecuteNonQuery();
                             addAdmin.ExecuteNonQuery();
-                            Console.WriteLine("Database cleared");
+                            Console.ForegroundColor = ConsoleColor.Red;
+                            Console.WriteLine("▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄");
+                            Console.WriteLine("█ DATABASE CLEARED! █");
+                            Console.WriteLine("▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀");
+                            Console.ResetColor();
                             break;
                         }
                         key = Console.ReadKey();
@@ -436,26 +480,27 @@ namespace maps
 
         public static string Help()
         {
-            return "?- Displays all available commands." + '\n'
-                + "Info- Displays program info." + '\n'
-                + "Clear- Clears the console." + '\n'
-                + "Create a Cafe- Creates a Cafe." + '\n'
-                + "Search Cafes- Find specified cafe." + '\n'
-                + "Nearby Cafes- Shows nearby cafes from the specified address in the specified radius" + '\n'
-                + "Select Cafe- Selects a Cafe(use only if you know the location of cafe)." + '\n'
-                + "Choose- Selects a cafe from the search result." + '\n'
-                + "Show Reviews- Shows the reviews of a selected cafe." + '\n'
-                + "Show Rating- Shows the rating of a selected cafe." + '\n'
-                + "Leave Review- Leaves a review(log in first)." + '\n'
-                + "Open Website- Opens the website of the selected cafe." + '\n'
-                + "Register- Creates a user." + '\n'
-                + "Login- Logs in a user." + '\n'
-                + "Logout- Logs out a user." + '\n'
-                + "Change Password- Changes password of the user." + '\n'
-                + "check session- checks session(for testing)." + '\n'
-                + "write session id- Writes the session id of the current user(for testing)." + '\n'
-                + "show current cafe- Shows cafe currently selected." + '\n'
-                + "Exit- Exits the program." + '\n';
+           return "Help ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Displays all available commands" + '\n'
+                + "Info ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Displays program info" + '\n'
+                + "Clear ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Clears the console" + '\n'
+                + "Create Cafe ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Creates a Cafe" + '\n'
+                + "Search Cafes ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Find specified cafe" + '\n'
+                + "Nearby Cafes ~~~~~~~ Shows nearby cafes from the specified address in the specified radius" + '\n'
+                + "Select Cafe  ~~~~~~~~~~~~~~~~~~~ Selects a Cafe(use only if you know the location of cafe)" + '\n'
+                + "Choose ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~  Selects a cafe from the search result" + '\n'
+                + "Show Reviews ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Shows the reviews of a selected cafe" + '\n'
+                + "Show Rating ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Shows the rating of a selected cafe" + '\n'
+                + "Leave Review ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~  Leaves a review(log in first)" + '\n'
+                + "Open Website ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~  Opens the website of the selected cafe" + '\n'
+                + "Working Hours ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Shows working hours of the selected cafe" + '\n'
+                + "Register ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Creates a user" + '\n'
+                + "Login ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Logs in a user" + '\n'
+                + "Logout ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Logs out a user" + '\n'
+                + "Change Password ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Changes password of the user" + '\n'
+                + "check session ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~  Checks session(for testing)" + '\n'
+                + "write session id ~~~~~~~~~~~~~~~~~~ Writes the session id of the current user(for testing)" + '\n'
+                + "show current cafe ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Shows cafe currently selected" + '\n'
+                + "Exit ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Exits the program" + '\n';
         }
 
         public static string Info()
@@ -492,12 +537,17 @@ namespace maps
 
         public static void Prompt()
         {
-            Console.WriteLine("Data is available, would you like to load it? Selecting NO will result in a DELETED database");
+            Console.WriteLine("Data is available, would you like to load it? Selecting NO will CLEAR the database");
         }
 
         public static string ErrorMessage()
         {
-            return "Incorrect command, type ? for list of commands.";
+            return "Incorrect command, type Help for list of commands.";
+        }
+
+        public static string Welcome()
+        {
+            return "Welcome to our MAP program, here are all the available commands: ";
         }
 
     }
